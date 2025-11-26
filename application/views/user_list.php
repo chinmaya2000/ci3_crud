@@ -184,10 +184,10 @@ $(document).on('click', '.editUserBtn', function() {
                 // Set gender radio
                 $("input[name='gender'][value='"+user.gender+"']").prop('checked', true);
 
-                // Load states and select user state
+               
                 loadStates('#editStateSelect', user.state);
 
-                // Open modal
+                
                 var editModal = new bootstrap.Modal(document.getElementById('editUserModal'));
                 editModal.show();
             } else {
@@ -230,7 +230,7 @@ $("#editUserForm").validate({
     errorElement: "label",
     errorPlacement: function (error, element) {
         if(element.attr("name") == "gender"){
-            error.insertAfter(element.closest('.mb-3')); // Place error below gender radios
+            error.insertAfter(element.closest('.mb-3')); 
         } else {
             error.insertAfter(element);
         }
@@ -245,7 +245,7 @@ $("#editUserForm").validate({
             success: function(res){
                 if(res.status == 'success'){
                     toastr.success(res.message);
-                    $('#editUserModal').modal('hide'); // Close modal
+                    $('#editUserModal').modal('hide'); 
                    $('#userTable').DataTable().ajax.reload();
                 } else {
                     toastr.error(res.message);

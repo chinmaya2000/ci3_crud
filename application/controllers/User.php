@@ -7,7 +7,7 @@ class User extends CI_Controller {
  public function __construct() {
         parent::__construct();
         $this->load->model('User_model');
-        $this->load->database();   // <- ADD THIS IF NOT AUTOLOADED
+        $this->load->database();   
     }
     public function index() {
         $this->load->view('user_list');
@@ -16,7 +16,7 @@ class User extends CI_Controller {
     public function getUsers() {
         $data = $this->User_model->fetchUsers();
         
-        echo json_encode(["data" => $data]); // DataTables expects "data"
+        echo json_encode(["data" => $data]); 
     }
     public function deleteUser() {
         $id = $this->input->post('id');
@@ -49,7 +49,7 @@ class User extends CI_Controller {
     }
     public function get_states() {
             $states = $this->User_model->get_states();
-            echo json_encode($states); // Send JSON to AJAX
+            echo json_encode($states); 
     }
     public function save_application_data() {
             $data = $this->input->post();
@@ -84,7 +84,7 @@ class User extends CI_Controller {
                 echo json_encode(['status'=>'error','message'=>'Please select state']); return;
             }
 
-            // Optional: Check duplicate email/mobile
+            
             $exists = $this->db->where('email', $data['email'])
                             ->or_where('mobile', $data['mobile'])
                             ->get('users')
@@ -118,24 +118,21 @@ class User extends CI_Controller {
         $data = $this->input->post();
         $id = (int)$data['id'];
 
-        // Validate here...
-        // (same as you already wrote)
-
-        // Check if user exists
+        
         $userExists = $this->User_model->get_user_by_id($id);
         if (!$userExists) {
             echo json_encode(['status'=>'error','message'=>'User not found']); 
             return;
         }
 
-        // Check duplicates using model
+       
         $duplicate = $this->User_model->check_duplicate($data['email'], $data['mobile'], $id);
         if ($duplicate) {
             echo json_encode(['status'=>'error','message'=>'Email or Mobile already exists']); 
             return;
         }
 
-        // Update
+        
         $updateData = [
             'name'       => trim($data['name']),
             'email'      => trim($data['email']),
